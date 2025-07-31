@@ -7,9 +7,9 @@ start = ReplyKeyboardMarkup(keyboard=[
 ])
 
 
-async def create_keyboard(general_callback, buttons, other_data=None):
+async def create_keyboard(general_callback, buttons, key=None, other_data=None):
     keyboard = InlineKeyboardBuilder()
     for button in buttons:
-        keyboard.add(InlineKeyboardButton(text=button, callback_data=f"{general_callback}:{button}:{other_data}"))
+        keyboard.add(InlineKeyboardButton(text=button, callback_data=f"{general_callback}:{button}:{key}:{other_data}"))
     return keyboard.adjust(1).as_markup()
 

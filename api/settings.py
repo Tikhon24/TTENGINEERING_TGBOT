@@ -1,5 +1,10 @@
 import sqlite3
 
+from database.data.chisel_plough import ChiselPlough
+from database.data.disc_harrow import DiskHarrow
+from database.data.cogs_harrow import CogsHarrow
+from database.data.roller import Roller
+
 
 class TableSettings:
 
@@ -8,6 +13,13 @@ class TableSettings:
         'Борона зубовая': 1,
         'Борона дисковая': 2,
         'Каток': 1
+    }
+
+    MODELS = {
+        'Плуг чизельный': ChiselPlough,
+        'Борона зубовая': CogsHarrow,
+        'Борона дисковая': DiskHarrow,
+        'Каток': Roller
     }
 
     FILENAME = '../database/db/technic.db'

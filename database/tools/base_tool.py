@@ -6,6 +6,7 @@ class BaseTool:
     """
     Инициализирует сессию
     """
+
     def __init__(self):
         self.session: Session = create_session()
 
@@ -16,7 +17,7 @@ class BaseMaster(BaseTool):
         super().__init__()
         self.Model = Model
 
-    def delete_by_name(self, name):
+    async def delete_by_name(self, name):
         """ Удаляет экземпляр по названию """
         try:
             self.session.query(self.Model).filter(self.Model.name == name).delete()
@@ -24,7 +25,7 @@ class BaseMaster(BaseTool):
         except Exception as ex:
             print('ERROR:', ex)
 
-    def get_by_name(self, name):
+    async def get_by_name(self, name):
         try:
             items = self.session.query(self.Model).filter(self.Model.name == name).all()
             return items

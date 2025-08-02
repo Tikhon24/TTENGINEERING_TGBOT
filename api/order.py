@@ -1,4 +1,5 @@
 from settings import TableSettings as table_settings
+from database.tools.master import DataBaseMaster
 
 
 class OrderMaster:
@@ -18,10 +19,19 @@ class OrderMaster:
         Распоряжается другими запросами и отдает данные|
             counter = None, если это первый вызов функции в контексте
         """
-        parameter = ''
+
+        master = DataBaseMaster(table_settings.MODELS[table_name])
 
         if counter is None:
             result = dict()
             result['questions'] = table_settings.QUESTIONS[table_name]
             tables_names = await OrderMaster.first_request()
 
+        if table_name == 'Плуг чизельный':
+            pass
+        if table_name == 'Борона зубовая':
+            pass
+        if table_name == 'Борона дисковая':
+            pass
+        if table_name == 'Каток':
+            pass

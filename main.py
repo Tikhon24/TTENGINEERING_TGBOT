@@ -18,7 +18,7 @@ async def init_db():
 
 async def main() -> None:
     await init_db()
-
+    print('hello world')
     dp.include_router(router)
     await dp.start_polling(bot)
 

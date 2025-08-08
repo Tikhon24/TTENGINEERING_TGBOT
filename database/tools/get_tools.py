@@ -1,4 +1,4 @@
-from base_tool import BaseMaster
+from database.tools.base_tool import BaseMaster
 
 
 class GetMaster(BaseMaster):

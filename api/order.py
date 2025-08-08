@@ -1,4 +1,4 @@
-from settings import TableSettings as table_settings
+from api.settings import TableSettings as table_settings
 from database.tools.master import DataBaseMaster
 
 

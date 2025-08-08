@@ -17,6 +17,8 @@ class Roller(SqlAlchemyBase, SerializerMixin):
         - Рабочая скорость
         - Диаметр барабана
         - Транспортная ширина
+        - Фото
+        - Видео
     """
     __tablename__ = 'Каток'
 
@@ -38,10 +40,14 @@ class Roller(SqlAlchemyBase, SerializerMixin):
     working_speed = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     # - Масса
     weight = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    # Диаметр барабана
+    # - Диаметр барабана
     reels_diameter = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    # Транспортная ширина
+    # - Транспортная ширина
     transport_width = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    # - Фото
+    photo = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    # - Видео
+    video = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     def __str__(self):
         return str(Roller.name)

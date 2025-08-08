@@ -16,6 +16,8 @@ class ChiselPlough(SqlAlchemyBase, SerializerMixin):
         - Рабочая скорость
         - Кол-во рабочих органов
         - Масса
+        - Фото
+        - Видео
     """
     __tablename__ = 'Плуг чизельный'
 
@@ -39,6 +41,10 @@ class ChiselPlough(SqlAlchemyBase, SerializerMixin):
     weight = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     # - Кол-во рабочих органов
     work_bodies_count = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    # - Фото
+    photo = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    # - Видео
+    video = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     def __str__(self):
         return str(ChiselPlough.name)

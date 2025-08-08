@@ -22,6 +22,13 @@ class TableSettings:
         'Каток': Roller
     }
 
+    MODELS_QUESTIONS = {
+        'Плуг чизельный': ['Сцепка'],
+        'Борона зубовая': ['Рядность'],
+        'Борона дисковая': ['Сцепка', 'Рядность'],
+        'Каток': ['Модель']
+    }
+
     FILENAME = '../database/db/technic.db'
 
     @staticmethod

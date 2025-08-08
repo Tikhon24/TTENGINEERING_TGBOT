@@ -17,6 +17,8 @@ class CogsHarrow(SqlAlchemyBase, SerializerMixin):
         - Глубина обработки
         - Масса
         - Рабочая скорость
+        - Фото
+        - Видео
     """
     __tablename__ = 'Борона зубовая'
 
@@ -40,6 +42,10 @@ class CogsHarrow(SqlAlchemyBase, SerializerMixin):
     weight = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     # - Глубина обработки
     process_depth = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    # - Фото
+    photo = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    # - Видео
+    video = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     def __str__(self):
         return str(CogsHarrow.name)

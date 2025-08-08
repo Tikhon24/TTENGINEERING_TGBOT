@@ -7,17 +7,18 @@ class GetMaster(BaseMaster):
         super().__init__(Model)
 
     async def get_data(self, **filters):
+        """ Возвращает все экземпляры по фильтрам """
 
         query = self.session.query(self.Model)
 
-        if '' in filters:
+        if 'Сцепка' in filters:
             # Сцепка
-            query = query.filter(self.Model.coupling == filters[''])
-        if '' in filters:
+            query = query.filter(self.Model.coupling == filters['Сцепка'])
+        if 'Рядность' in filters:
             # Рядность
-            query = query.filter(self.Model.row_by_row == filters[''])
-        if '' in filters:
+            query = query.filter(self.Model.row_by_row == filters['Рядность'])
+        if 'Модель' in filters:
             # Модель
-            query = query.filter(self.Model.model == filters[''])
+            query = query.filter(self.Model.model == filters['Модель'])
 
         return query.all()

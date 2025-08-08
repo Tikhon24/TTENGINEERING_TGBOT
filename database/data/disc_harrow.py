@@ -18,6 +18,8 @@ class DiskHarrow(SqlAlchemyBase, SerializerMixin):
         - Масса
         - Расстояние между дисками
         - Расстояние между рядами
+        - Фото
+        - Видео
     """
     __tablename__ = 'Борона дисковая'
 
@@ -27,24 +29,28 @@ class DiskHarrow(SqlAlchemyBase, SerializerMixin):
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     # - Кол-во дисков
     disk_count = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    # Требуемая мощность
+    # - Требуемая мощность
     required_power = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    # Цена
+    # - Цена
     price = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    # Сцепка*
+    # - Сцепка*
     coupling = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    # Рядность*
+    # - Рядность*
     row_by_row = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    # Ширина захвата
+    # - Ширина захвата
     capture_width = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    # Рабочая скорость
+    # - Рабочая скорость
     working_speed = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    # Масса
+    # - Масса
     weight = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    # Расстояние между дисками
+    # - Расстояние между дисками
     distance_btw_disks = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-    # Расстояние между рядами
+    # - Расстояние между рядами
     distance_btw_rows = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    # - Фото
+    photo = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    # - Видео
+    video = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     def __str__(self):
         return str(DiskHarrow.name)

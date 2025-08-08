@@ -6,6 +6,10 @@ start = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text="О нас"), KeyboardButton(text="Помощь")]
 ])
 
+order = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text="Заказать", callback_data="опа"), InlineKeyboardButton(text="Назад", callback_data="опа2")]
+])
+
 
 async def create_keyboard(general_callback, buttons, key=None, other_data=None):
     keyboard = InlineKeyboardBuilder()

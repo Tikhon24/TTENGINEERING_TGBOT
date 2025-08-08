@@ -23,7 +23,9 @@ async def start(massage: Message):
 @router.message(F.text == "Каталог")
 @router.message(Command("catalog"))
 async def open_catalog(massage: Message, state: FSMContext):  # Открываем каталог и задаем вопрос какя техника требуется
+
     tables = ["1", "2", "3", "4"]  # запрос на получение всех названий таблиц
+
     await state.set_state(Catalog.table)
     await massage.answer("*каталог*", reply_markup=await kb.create_keyboard("tables", tables))
 
@@ -40,11 +42,12 @@ async def choose_table(callback: CallbackQuery, state: FSMContext):  # полу�
 
 # -=----------------------------------------------------------------------------------------------------------=-
     print(table)
-    parameter = [{"key": ["1", "2"]}, 2]  # запрос на получение первого вопроса
+    quantity = 2  # запрос на получение количества вопросов
+    print(quantity)
+    parameter = [{"key": ["1", "2"]}]  # запрос на получение первого вопроса
 # -=----------------------------------------------------------------------------------------------------------=-
     col = list(parameter[0].keys())[0]  # название столбца
     options = parameter[0][col]  # варианты ответа
-    quantity = parameter[1]  # количество вопросов
 
     await callback.message.edit_text(text="опа", reply_markup=await kb.create_keyboard("parameters",
                                                                                        options, key=col, other_data=quantity))

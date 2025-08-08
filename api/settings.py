@@ -29,7 +29,7 @@ class TableSettings:
         'Каток': ['Модель']
     }
 
-    FILENAME = '../database/db/technic.db'
+    FILENAME = 'database/db/technic.db'
 
     @staticmethod
     async def get_tables_name():

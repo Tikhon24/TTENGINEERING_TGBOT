@@ -14,6 +14,6 @@ class DeleteMaster:
         return tables_names
 
     @staticmethod
-    async def delete_request(table: str, name: str):
+    async def delete_request(table: str, name: str) -> bool:
         master = DataBaseMaster(table_settings.MODELS[table])
-        await master.delete_by_name(name)
+        return await master.delete_by_name(name)

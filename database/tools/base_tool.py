@@ -22,5 +22,7 @@ class BaseMaster(BaseTool):
         try:
             self.session.query(self.Model).filter(self.Model.name == name).delete()
             self.session.commit()
+            return True
         except Exception as ex:
             print('ERROR:', ex)
+            return False

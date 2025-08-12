@@ -17,9 +17,6 @@ class Catalog(StatesGroup):
     count = State()
 
 
-class
-
-
 @router.message(CommandStart())
 async def start(message: Message):
     await message.answer(messages.start(), reply_markup=kb.start)
@@ -107,23 +104,20 @@ async def choose_options(callback: CallbackQuery, state: FSMContext):  # При�
 
 
 @router.callback_query(lambda c: c.data.startswith('models:'))
-async def choose_model(callback: CallbackQuery):
+async def choose_model(callback: CallbackQuery, state: FSMContext):
     callback_data = callback.data.split(':')  # получаем все денные из колбэка и разбиваем по переменным
     model = callback_data[1]
 
+    data = await state.get_data()
 # -=----------------------------------------------------------------------------------------------------------=-
     print(model)  # отправка выбранной модели
-    data = "данные"
+    text = "данные"
 # -=----------------------------------------------------------------------------------------------------------=-
 
-    await callback.message.edit_text(text=f"{model}\n{data}", reply_markup=kb.order)
+    await callback.message.edit_text(text=f"{model}\n{text}", reply_markup=await kb.create_order_keyboard(model, data))
 
 
-@router.callback_query(F.data == "order")
+@router.callback_query(lambda c: c.data.startswith('models:'))
 async def make_order(callback: CallbackQuery):
     pass
 
-
-@router.callback_query(F.data == "back")
-async def go_back(callback: CallbackQuery):
-    await choose_options()

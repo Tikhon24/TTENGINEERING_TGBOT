@@ -6,7 +6,7 @@ class GetMaster(BaseMaster):
     def __init__(self, Model):
         super().__init__(Model)
 
-    async def get_data(self, **filters):
+    async def get_data(self, filters):
         """ Возвращает все экземпляры по фильтрам """
 
         query = self.session.query(self.Model)

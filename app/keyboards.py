@@ -7,7 +7,8 @@ start = ReplyKeyboardMarkup(keyboard=[
 ])
 
 order = InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text="Заказать", callback_data="опа"), InlineKeyboardButton(text="Назад", callback_data="опа2")]
+    [InlineKeyboardButton(text="Заказать", callback_data="order"),
+     InlineKeyboardButton(text="Назад", callback_data="back")]
 ])
 
 

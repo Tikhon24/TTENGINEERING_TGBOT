@@ -5,6 +5,7 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 
 import app.keyboards as kb
+import app.messages as messages
 from api.order import OrderMaster
 
 router = Router()
@@ -16,9 +17,12 @@ class Catalog(StatesGroup):
     count = State()
 
 
+class
+
+
 @router.message(CommandStart())
-async def start(massage: Message):
-    await massage.answer("start", reply_markup=kb.start)
+async def start(message: Message):
+    await message.answer(messages.start(), reply_markup=kb.start)
 
 
 @router.message(F.text == "Каталог")
@@ -42,16 +46,18 @@ async def choose_table(callback: CallbackQuery, state: FSMContext):  # полу�
     await state.update_data(count=0)  # Начинаем счетчик с нуля!!!!!!!!!!!!!
 
 # -=----------------------------------------------------------------------------------------------------------=-
-    print(table)
-    quantity = 2  # запрос на получение количества вопросов
+    quantity = await OrderMaster.second_request(table)
+    print(quantity)
     data = await state.get_data()
-# -=----------------------------------------------------------------------------------------------------------=-
     print(data)
-    parameter = [{"key": ["1", "2"]}]  # запрос на получение первого вопроса---
 # -=----------------------------------------------------------------------------------------------------------=-
 
-    col = list(parameter[0].keys())[0]  # название столбца
-    options = parameter[0][col]  # варианты ответа
+    parameter = await OrderMaster.another_request(**data)  # запрос на получение первого вопроса---
+    print("прараметры", parameter)
+# -=----------------------------------------------------------------------------------------------------------=-
+
+    col = list(parameter.keys())[0]  # название столбца
+    options = parameter[col]  # варианты ответа
 
     await callback.message.edit_text(text="опа", reply_markup=await kb.create_keyboard("parameters",
                                                                                        options, key=col, other_data=quantity))
@@ -81,19 +87,19 @@ async def choose_options(callback: CallbackQuery, state: FSMContext):  # При�
 
     if flag:
 # -=----------------------------------------------------------------------------------------------------------=-
-        print(data)
-        parameter = [{"key2": ["1", "2"]}]  # запрос на получение последующего вопроса и оправка данных
+        parameter = await OrderMaster.another_request(**data)  # запрос на получение первого вопроса---
+        print("прараметры", parameter)
 # -=----------------------------------------------------------------------------------------------------------=-
 
-        col = list(parameter[0].keys())[0]  # название столбца
-        options = parameter[0][col]  # варианты ответа
+        col = list(parameter.keys())[0]  # название столбца
+        options = parameter[col]  # варианты ответа
 
         await callback.message.edit_text(text=f"Вопрос {count}",
                                          reply_markup=await kb.create_keyboard("parameters", options, key=col, other_data=quantity))
     else:
 # -=-----------------------------------=Оправка последних данных=---------------------------------------------=-
         print(data)  # отправка финальных данных
-        models = ["БК-1", "БК-2", "БК-3", "БК-4"]  # Получаем все модели
+        models = await OrderMaster.another_request(**data)  # Получаем все модели
 # -=----------------------------------------------------------------------------------------------------------=-
 
         await callback.message.edit_text(text="Выберите модель",
@@ -113,5 +119,11 @@ async def choose_model(callback: CallbackQuery):
     await callback.message.edit_text(text=f"{model}\n{data}", reply_markup=kb.order)
 
 
+@router.callback_query(F.data == "order")
+async def make_order(callback: CallbackQuery):
+    pass
 
 
+@router.callback_query(F.data == "back")
+async def go_back(callback: CallbackQuery):
+    await choose_options()

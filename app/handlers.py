@@ -117,7 +117,11 @@ async def choose_model(callback: CallbackQuery, state: FSMContext):
     await callback.message.edit_text(text=f"{model}\n{text}", reply_markup=await kb.create_order_keyboard(model, data))
 
 
-@router.callback_query(lambda c: c.data.startswith('models:'))
+@router.callback_query(lambda c: c.data.startswith('order:'))
 async def make_order(callback: CallbackQuery):
-    pass
+    callback_data = callback.data.split(':')  # получаем все денные из колбэка и разбиваем по переменным
+    model = callback_data[1]
+    user_info = callback.from_user
+
+    await messages.send_order(model, user_info)
 

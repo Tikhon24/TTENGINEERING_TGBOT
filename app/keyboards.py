@@ -18,3 +18,12 @@ async def create_keyboard(general_callback, buttons, key=None, other_data=None):
         keyboard.add(InlineKeyboardButton(text=button, callback_data=f"{general_callback}:{button}:{key}:{other_data}"))
     return keyboard.adjust(1).as_markup()
 
+
+async def create_order_keyboard(model, data):
+    keyboard = InlineKeyboardBuilder()
+
+    print("jgf", data['count'])
+    keyboard.add(InlineKeyboardButton(text="Заказать", callback_data=f"order:{model}"))
+    keyboard.add(InlineKeyboardButton(text="Назад", callback_data=f"parameters:::{data['count']}"))
+
+    return keyboard.adjust(2).as_markup()

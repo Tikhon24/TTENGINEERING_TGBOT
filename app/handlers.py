@@ -17,8 +17,6 @@ class Catalog(StatesGroup):
     count = State()
 
 
-
-
 @router.message(CommandStart())
 async def start(message: Message):
     await message.answer(messages.start(), reply_markup=kb.start)

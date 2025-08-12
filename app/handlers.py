@@ -17,7 +17,6 @@ class Catalog(StatesGroup):
     count = State()
 
 
-class
 
 
 @router.message(CommandStart())

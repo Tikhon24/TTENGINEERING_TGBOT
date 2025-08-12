@@ -1,4 +1,5 @@
 from database.tools.get_tools import GetMaster
+from database.tools.base_tool import BaseMaster
 
 
 class DataBaseMaster(GetMaster):

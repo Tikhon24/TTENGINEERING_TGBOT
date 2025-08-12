@@ -22,3 +22,28 @@ class GetMaster(BaseMaster):
             query = query.filter(self.Model.model == filters['Модель'])
 
         return query.all()
+
+    async def get_all_by_name(self, name):
+        try:
+            items = self.session.query(self.Model).filter(self.Model.name == name).first()
+            if items is None:
+                return None
+            result = items.to_dict()
+            return result
+        except Exception as ex:
+            print('ERROR:', ex)
+            return None
+
+    async def get_media_by_name(self, name):
+        try:
+            items = self.session.query(self.Model).filter(self.Model.name == name).first()
+            if items is None:
+                return None
+            result = items.to_dict(only=['photo', 'video'])
+            # Разделяем строку на список по знаку ";"
+            result['photo'] = str(result['photo']).split(';')
+            result['video'] = str(result['video']).split(';')
+            return result
+        except Exception as ex:
+            print('ERROR:', ex)
+            return None

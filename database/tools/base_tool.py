@@ -24,11 +24,3 @@ class BaseMaster(BaseTool):
             self.session.commit()
         except Exception as ex:
             print('ERROR:', ex)
-
-    async def get_by_name(self, name):
-        try:
-            items = self.session.query(self.Model).filter(self.Model.name == name).all()
-            return items
-        except Exception as ex:
-            print('ERROR:', ex)
-            return None

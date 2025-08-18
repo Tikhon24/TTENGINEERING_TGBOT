@@ -7,6 +7,11 @@ from aiogram.fsm.context import FSMContext
 import app.keyboards as kb
 import app.messages as messages
 from api.order import OrderMaster
+from api.settings import TableSettings as tb
+from database.tools.master import DataBaseMaster
+
+
+
 
 router = Router()
 
@@ -29,7 +34,7 @@ async def open_catalog(massage: Message, state: FSMContext):  # Открывае
     tables = await OrderMaster.first_request()  # запрос на получение всех названий таблиц
 
     await state.set_state(Catalog.table)
-    await massage.answer("*каталог*", reply_markup=await kb.create_keyboard("tables", tables))
+    await massage.answer(text=messages.catalog(), reply_markup=await kb.create_keyboard("tables", tables))
 
 
 @router.callback_query(lambda c: c.data.startswith('tables:'))
@@ -56,7 +61,8 @@ async def choose_table(callback: CallbackQuery, state: FSMContext):  # полу�
     col = list(parameter.keys())[0]  # название столбца
     options = parameter[col]  # варианты ответа
 
-    await callback.message.edit_text(text="опа", reply_markup=await kb.create_keyboard("parameters",
+
+    await callback.message.edit_text(text=messages.parameters(col), reply_markup=await kb.create_keyboard("parameters",
                                                                                        options, key=col, other_data=quantity))
 
 
@@ -84,14 +90,14 @@ async def choose_options(callback: CallbackQuery, state: FSMContext):  # При�
 
     if flag:
 # -=----------------------------------------------------------------------------------------------------------=-
-        parameter = await OrderMaster.another_request(**data)  # запрос на получение первого вопроса---
+        parameter = await OrderMaster.another_request(**data)
         print("прараметры", parameter)
 # -=----------------------------------------------------------------------------------------------------------=-
 
         col = list(parameter.keys())[0]  # название столбца
         options = parameter[col]  # варианты ответа
 
-        await callback.message.edit_text(text=f"Вопрос {count}",
+        await callback.message.edit_text(text=messages.parameters(col),
                                          reply_markup=await kb.create_keyboard("parameters", options, key=col, other_data=quantity))
     else:
 # -=-----------------------------------=Оправка последних данных=---------------------------------------------=-
@@ -110,18 +116,28 @@ async def choose_model(callback: CallbackQuery, state: FSMContext):
 
     data = await state.get_data()
 # -=----------------------------------------------------------------------------------------------------------=-
+    master = DataBaseMaster(tb.MODELS[data["table"]])
     print(model)  # отправка выбранной модели
-    text = "данные"
+    characteristic = await master.get_all_by_name(name=model)
 # -=----------------------------------------------------------------------------------------------------------=-
 
-    await callback.message.edit_text(text=f"{model}\n{text}", reply_markup=await kb.create_order_keyboard(model, data))
+    await callback.message.edit_text(text=f"{model}\n{characteristic}", reply_markup=await kb.create_order_keyboard(model, data))
 
 
-@router.callback_query(lambda c: c.data.startswith('order:'))
+@router.callback_query(lambda c: c.data.startswith('order:'))  # Заказать
 async def make_order(callback: CallbackQuery):
+    callback_data = callback.data.split(':')  # получаем все денные из колбэка и разбиваем по переменным
+    model = callback_data[1]
+
+    await callback.message.edit_text(text=f"Вы точно хотите заказать аппарат {model}?\n"
+                                          f"После подтверждения отменить заказ будет невозмождно!",
+                                     reply_markup=await kb.create_confirmation_keyboard(model))
+
+
+@router.callback_query(lambda c: c.data.startswith('confirmation:'))  # Подтверждение
+async def confirmation(callback: CallbackQuery):
     callback_data = callback.data.split(':')  # получаем все денные из колбэка и разбиваем по переменным
     model = callback_data[1]
     user_info = callback.from_user
 
     await messages.send_order(model, user_info)
-

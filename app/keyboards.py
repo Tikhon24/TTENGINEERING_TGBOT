@@ -6,7 +6,7 @@ start = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text="О нас"), KeyboardButton(text="Помощь")]
 ])
 
-order = InlineKeyboardMarkup(inline_keyboard=[
+confirmation = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text="Заказать", callback_data="order"),
      InlineKeyboardButton(text="Назад", callback_data="back")]
 ])
@@ -25,5 +25,16 @@ async def create_order_keyboard(model, data):
     print("jgf", data['count'])
     keyboard.add(InlineKeyboardButton(text="Заказать", callback_data=f"order:{model}"))
     keyboard.add(InlineKeyboardButton(text="Назад", callback_data=f"parameters:::{data['count']}"))
+
+    return keyboard.adjust(2).as_markup()
+
+
+
+async def create_confirmation_keyboard(model):
+    keyboard = InlineKeyboardBuilder()
+
+
+    keyboard.add(InlineKeyboardButton(text="Заказать", callback_data=f"confirmation:{model}"))
+    keyboard.add(InlineKeyboardButton(text="Отмена", callback_data=f"no"))
 
     return keyboard.adjust(2).as_markup()

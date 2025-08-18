@@ -16,6 +16,21 @@ def start():
     return message
 
 
+def catalog():
+    message = "Вы попали в каталог!\nВыберете тип аппарата:"
+    return message
+
+
+def parameters(prarameter):
+    message = f'Выберете вариант параметра "{prarameter}":'
+    return message
+
+
+def models():
+    message = "Выберете интересующую вас модель:"
+    return message
+
+
 def escape(text: str) -> str:
     return re.sub(r'([_*\[\]()~`>#+\-=|{}.!\\])', r'\\\1', text)
 
